@@ -695,11 +695,18 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         return deferred.promise;
     }])
 
-    .controller('Dialogue', ['$sce','$element','$timeout','$q','$scope','Tabletop','DialoguePortfolioParser','Weather','GetLocation','GrantsAge',function($sce,$element,$timeout,$q,$scope,Tabletop,DialoguePortfolioParser,Weather,GetLocation,GrantsAge) {
+    .controller('Dialogue', ['$sce','$element','$timeout','$q','$scope','Tabletop','DialoguePortfolioParser','Weather','GetLocation','GrantsAge','$http',function($sce,$element,$timeout,$q,$scope,Tabletop,DialoguePortfolioParser,Weather,GetLocation,GrantsAge, $http) {
 
         var parsedData, dialogue;
         var waitingForResponse;
         var currentResponseCategory;
+
+        const consumerKey = "0AUrbvhzjfJK2qMF8icRQg";
+        const consumerSecret = "xaPE05PudxXyU8pOKTmqrK5xtig";
+        const token = "w-OadXdo_jEomxZHw8HClmRExZJhVYSO";
+        const tokenSecret = "KGf-o-UdPhcJps_NghLwaDJqTMQ";
+        const URL = "http://api.yelp.com/v2/search";
+
         // Returns response promise based on input
         var dialogueResponse = function(input){
             var deferred = $q.defer();
@@ -755,6 +762,16 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         $scope.currentUser = { text: '' };
         var userDefaults = {};
 
+
+        var randomString = function(length) {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            for(var i = 0; i < length; i++) {
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
+            return text;
+        }
+
         // Send filtered response
         $scope.messageQueue = [];
         $scope.send = function(input) {
@@ -782,6 +799,30 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
                                 break;
                             case "location":
                                 userDefaults.location = input;
+
+                                var date = new Date();
+                                var timestamp = date.getTime();
+
+                                var httpMethod = 'GET',
+                                    parameters = {
+                                        callback: 'angular.callbacks._0',
+                                        oauth_consumer_key : consumerKey,
+                                        location: userDefaults.location,
+                                        oauth_token : token,
+                                        oauth_nonce : randomString(10),
+                                        oauth_timestamp : timestamp,
+                                        oauth_signature_method : 'HMAC-SHA1',
+                                        oauth_version : '1.0',
+                                    },
+                                    signature = oauthSignature.generate(httpMethod, URL, parameters, consumerSecret, tokenSecret,
+                                        { encodeSignature: false});
+
+                                parameters['oauth_signature'] = signature;
+
+
+                                $http.get(URL, {params: parameters}).then(function(response){
+                                    registerMessage(response.data);
+                                });
                                 registerMessage("Great!");
                                 break;
                             default:
