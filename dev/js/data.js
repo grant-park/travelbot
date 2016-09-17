@@ -103,7 +103,7 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         const consumerSecret = "xaPE05PudxXyU8pOKTmqrK5xtig";
         const token = "w-OadXdo_jEomxZHw8HClmRExZJhVYSO";
         const tokenSecret = "KGf-o-UdPhcJps_NghLwaDJqTMQ";
-        const URL = "http://api.yelp.com/v2/search";
+        const URL = "http://api.yelp.com/v2/search?callback=JSON_CALLBACK";
 
         // Returns response promise based on input
         var dialogueResponse = function(input){
@@ -217,10 +217,14 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
 
                                 parameters['oauth_signature'] = signature;
 
-
-                                $http.jsonp(URL, {params: parameters}).then(function(response){
-                                    console.log(response.data);
-                                    registerMessage(response.data);
+                                console.log("hi");
+                                $http.jsonp(URL, {params: parameters}).success(function(response){
+                                    console.dir(response);
+                                    var buildString = [];
+                                    for(var i=0; i< (response.businesses.length > 3 ? 3 : response.businesses.length); i++) {
+                                        buildString.push("<a target='_blank' href='" + response.businesses[i].url + "'><br/><img style='border-radius:5px;border:1px solid white;' src='" + response.businesses[i].image_url + "' />" + "<p style='margin-bottom:-5px;'>" + response.businesses[i].name + "</p></a>");
+                                    }
+                                    registerMessage("Okay, here are some suggestions for where to go in " + userDefaults.location + ".<br/>" + buildString.join(''));
                                 });
                                 registerMessage("Great!");
                                 break;
