@@ -699,6 +699,7 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
 
         var parsedData, dialogue;
         var waitingForResponse;
+        var currentResponseCategory;
         // Returns response promise based on input
         var dialogueResponse = function(input){
             var deferred = $q.defer();
@@ -716,12 +717,18 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
 
         $scope.lock = false;
         // Add to message queue
-        var registerMessage = function(msg,sender,/*optional*/ status){
+        var registerMessage = function(msg,sender,/*optional*/ waitingObj){
+            if (waitingObj) {
+                // wait for response
+                waitingForResponse = true;
+                currentResponseCategory = waitingObj.category;
+            }
             var deferred = $q.defer();
+            if (waitingForResponse)
             if (!sender && !$scope.lock) {
                 $scope.lock = true;
                 $timeout(function(){
-                    $scope.messageQueue.push({ sender: sender ? sender : 'Grant', message: msg, status: status });
+                    $scope.messageQueue.push({ sender: sender ? sender : 'Grant', message: msg });
                     deferred.resolve();
                 },900).then(function(){
                     $scope.lock = false;
@@ -746,6 +753,7 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         };
 
         $scope.currentUser = { text: '' };
+        var userDefaults = {};
 
         // Send filtered response
         $scope.messageQueue = [];
@@ -755,11 +763,33 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
                     registerMessage(input, 'user');
                     $element.find('input').val('');
                     $scope.currentUser.text = null;
-                    waitingForResponse = false;
 
                     // do stuff with input now
-                    console.log("testing");
-                    registerMessage("Response received.");
+                    if (currentResponseCategory) {
+                        switch (currentResponseCategory) {
+                            case "name":
+                                userDefaults.username = input;
+                                registerMessage("Hello " + input + "!" + " How are you today?", null, { category: "feeling" });
+                                break;
+                            case "feeling":
+                                // sentiment analysis
+                                userDefaults.feeling = input;
+                                registerMessage("Awesome!").then(function(){
+                                    $timeout(function(){
+                                        registerMessage("Where are you headed " + userDefaults.username + "?", null, { category: "location" });
+                                    },300);
+                                });
+                                break;
+                            case "location":
+                                userDefaults.location = input;
+                                registerMessage("Great!");
+                                break;
+                            default:
+                                // if response can't be recognized, just registerMessage("Sorry, I can't respond to that.")
+                                registerMessage("Sorry, I can't respond to that.");
+                        }
+                    }
+
 
                 } else {
                     registerMessage(input, 'user');
@@ -799,11 +829,7 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
             dialogue = parsedData.dialogue;
         },function(msg){console.error(msg);});
 
-        registerMessage("Hi, I'm TravelBot. What's your name?").then(function(){
-            // wait for response
-            waitingForResponse = true;
-            console.log("waiting for response");
-        });
+        registerMessage("Hi, I'm TravelBot. What's your name?", null, { category: "name" });
 
 
         $timeout(function(){
