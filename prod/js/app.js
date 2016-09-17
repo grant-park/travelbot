@@ -822,11 +822,12 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
                                 console.log("hi");
                                 $http.jsonp(URL, {params: parameters}).success(function(response){
                                     console.dir(response);
+                                    console.log(response.businesses[0].location.country_code);
                                     var buildString = [];
                                     for(var i=0; i< (response.businesses.length > 3 ? 3 : response.businesses.length); i++) {
-                                        buildString.push("<a target='_blank' href='" + response.businesses[i].url + "'><br/><img style='border-radius:5px;border:1px solid white;' src='" + response.businesses[i].image_url + "' />" + "<p style='margin-bottom:-5px;'>" + response.businesses[i].name + "</p></a>");
+                                        buildString.push("<a target='_blank' href='" + response.businesses[i].url + "'><br/><img style='border-radius:5px;border:1px solid white;margin-bottom:-10px;' src='" + response.businesses[i].image_url + "' />" + "<p style='margin-bottom:-5px;'>" + response.businesses[i].name + "</p></a>");
                                     }
-                                    registerMessage("Okay, here are some suggestions for where to go in " + userDefaults.location + ".<br/>" + buildString.join(''));
+                                    registerMessage("Okay, here are some suggestions for where to go in " + userDefaults.location + ".<br/><br/>" + buildString.join(''));
                                 });
                                 registerMessage("Great!");
                                 break;
