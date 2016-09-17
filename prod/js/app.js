@@ -795,22 +795,6 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         }).then(function(data){
             parsedData = DialoguePortfolioParser.parse(data);
             dialogue = parsedData.dialogue;
-            $scope.portfolio = parsedData.portfolio;
-            // currently set page capacity to 20 apps
-            $scope.pages = [];
-
-            var currentIterPage = [];
-            _.each($scope.portfolio, function(el){
-                if (currentIterPage.length === capacity) {
-                    $scope.pages.push(currentIterPage); 
-                    currentIterPage = [];
-                }
-                currentIterPage.push(el);
-            });
-            if (currentIterPage !== []) {
-                $scope.pages.push(currentIterPage);
-            }
-
         },function(msg){console.error(msg);});
 
         registerMessage("Hi, I'm TravelBot. What's your name?").then(function(){
