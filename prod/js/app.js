@@ -740,48 +740,34 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
             // do nothing
         };
 
-        var checkOverride = function(msg){
-            function check(test){ return msg.toLowerCase().indexOf(test) !== -1; }
-            if (check('project')) {
-                $timeout(function(){
-                    $scope.dottedAnimate = true;
-                },500);
-            } else if (check('switch')) {
-                $scope.buttonClicked();
-            }
-            return false;
-        };
-
         $scope.currentUser = { text: '' };
 
         // Send filtered response
         $scope.messageQueue = [];
         $scope.send = function(input) {
             if (!$scope.lock && input) {
-                if (!checkOverride(input)) {
-                    registerMessage(input, 'user');
-                    $element.find('input').val('');
-                    $scope.currentUser.text = null;
-                    if ($scope.amSelected) {
-                        socket.emit('new message', input);
-                    } else {
-                        dialogueResponse(input).then(function(data){
-                            switch (data.response) {
-                                case "E.AGE":
-                                    registerMessage(GrantsAge);
-                                    break;
-                                case "E.WEATHER":
-                                    Weather.then(function(resp){
-                                        registerMessage(resp);
-                                    });
-                                    break;
-                                default:
-                                    registerMessage(data.response);
-                            }
-                        },function(notFoundMsg){
-                            registerMessage(notFoundMsg);
-                        });
-                    }
+                registerMessage(input, 'user');
+                $element.find('input').val('');
+                $scope.currentUser.text = null;
+                if ($scope.amSelected) {
+                    socket.emit('new message', input);
+                } else {
+                    dialogueResponse(input).then(function(data){
+                        switch (data.response) {
+                            case "E.AGE":
+                                registerMessage(GrantsAge);
+                                break;
+                            case "E.WEATHER":
+                                Weather.then(function(resp){
+                                    registerMessage(resp);
+                                });
+                                break;
+                            default:
+                                registerMessage(data.response);
+                        }
+                    },function(notFoundMsg){
+                        registerMessage(notFoundMsg);
+                    });
                 }
             }
         };
@@ -817,6 +803,8 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         },function(msg){console.error(msg);});
 
         registerMessage("Hi, I'm TravelBot. What's your name?");
+
+        // wait for response
 
         $timeout(function(){
             $element.addClass('loaded'); 
