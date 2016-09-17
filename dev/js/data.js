@@ -96,6 +96,7 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
     .controller('Dialogue', ['$sce','$element','$timeout','$q','$scope','Tabletop','DialoguePortfolioParser','Weather','GetLocation','GrantsAge',function($sce,$element,$timeout,$q,$scope,Tabletop,DialoguePortfolioParser,Weather,GetLocation,GrantsAge) {
 
         var parsedData, dialogue;
+        var waitingForResponse;
         // Returns response promise based on input
         var dialogueResponse = function(input){
             var deferred = $q.defer();
@@ -114,18 +115,22 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         $scope.lock = false;
         // Add to message queue
         var registerMessage = function(msg,sender,/*optional*/ status){
+            var deferred = $q.defer();
             if (!sender && !$scope.lock) {
                 $scope.lock = true;
                 $timeout(function(){
-                    $scope.messageQueue.push({ sender: sender ? sender : 'Grant', message: msg, status: status }); 
+                    $scope.messageQueue.push({ sender: sender ? sender : 'Grant', message: msg, status: status });
+                    deferred.resolve();
                 },900).then(function(){
                     $scope.lock = false;
                 }); 
             } else {
                 if (!$scope.lock) {
-                    $scope.messageQueue.push({ sender: sender ? sender : 'Grant', message: msg }); 
+                    $scope.messageQueue.push({ sender: sender ? sender : 'Grant', message: msg });
+                    deferred.resolve();
                 }
             }
+            return deferred.promise;
         };
 
         $scope.trustAsHtml = function(string){
@@ -144,28 +149,34 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         $scope.messageQueue = [];
         $scope.send = function(input) {
             if (!$scope.lock && input) {
-                registerMessage(input, 'user');
-                $element.find('input').val('');
-                $scope.currentUser.text = null;
-                if ($scope.amSelected) {
-                    socket.emit('new message', input);
+                if (waitingForResponse) {
+                    // do stuff with input now
+
+                    waitingForResponse = false;
                 } else {
-                    dialogueResponse(input).then(function(data){
-                        switch (data.response) {
-                            case "E.AGE":
-                                registerMessage(GrantsAge);
-                                break;
-                            case "E.WEATHER":
-                                Weather.then(function(resp){
-                                    registerMessage(resp);
-                                });
-                                break;
-                            default:
-                                registerMessage(data.response);
-                        }
-                    },function(notFoundMsg){
-                        registerMessage(notFoundMsg);
-                    });
+                    registerMessage(input, 'user');
+                    $element.find('input').val('');
+                    $scope.currentUser.text = null;
+                    if ($scope.amSelected) {
+                        socket.emit('new message', input);
+                    } else {
+                        dialogueResponse(input).then(function(data){
+                            switch (data.response) {
+                                case "E.AGE":
+                                    registerMessage(GrantsAge);
+                                    break;
+                                case "E.WEATHER":
+                                    Weather.then(function(resp){
+                                        registerMessage(resp);
+                                    });
+                                    break;
+                                default:
+                                    registerMessage(data.response);
+                            }
+                        },function(notFoundMsg){
+                            registerMessage(notFoundMsg);
+                        });
+                    }
                 }
             }
         };
@@ -200,9 +211,11 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
 
         },function(msg){console.error(msg);});
 
-        registerMessage("Hi, I'm TravelBot. What's your name?");
+        registerMessage("Hi, I'm TravelBot. What's your name?").then(function(){
+            // wait for response
+            waitingForResponse = true;
+        });
 
-        // wait for response
 
         $timeout(function(){
             $element.addClass('loaded'); 
