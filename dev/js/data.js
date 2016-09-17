@@ -5,7 +5,7 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
     .config(['TabletopProvider', function(TabletopProvider){
         // Tabletop setup
         TabletopProvider.setTabletopOptions({
-            key: '1uvHeB66RrTJ87hmna5SnSvBeiuCQ3PE84OLcTL6iwdI',
+            key: '1nWRFI2iLEt8onPB_5HSjTBjLZ_wfRaEdmsa7CeFUiLE',
             simple_url: true
         });
     }])        
