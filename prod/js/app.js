@@ -810,10 +810,6 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         // Initial screen is dialogue
         $scope.dialogue = true;
         $scope.buttonClicked = function(){
-            if ($scope.dialogue) {
-                $scope.notifCount = 0;
-            }
-            $scope.dialogue = !$scope.dialogue;
         };
 
         // notif is initally idle
