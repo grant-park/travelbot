@@ -1,9 +1,9 @@
 $font: 'Work Sans', sans-serif;
-$mobileDeviceColor: lightgray;
+$mobileDeviceColor: white;
 $mobileDeviceAfterColor: white;
 $chatBubbleColor: #64a7ed;
 $chatBubbleUserColor: #4cb5ff;
-$chatWindowColor: #c3edfb;
+$chatWindowColor: lightblue;
 $chatBarColor: #d2d2d2;
 $chatBubbleFontColor: white;
 $appIconColor: tan;
@@ -19,9 +19,9 @@ $statusOffline: #a58b86;
 
 $deviceHeightAdd: 15px;
 
-html {
-        box-shadow: 0 0 300px rgba(0,0,0,0.40) inset;
-}
+//html {
+//        box-shadow: 0 0 300px rgba(0,0,0,0.40) inset;
+//}
 
 a {
         color: navajowhite;
@@ -29,8 +29,7 @@ a {
 }
 
 body {
-        background-image: url('retina_wood_@2X.jpg');
-        background-repeat: repeat;
+        background-color: #516281;
         overflow: hidden;
         height: 100%;
 }
@@ -56,37 +55,16 @@ body {
                 transition: 1s ease-in-out;
                 -webkit-transition: 1s ease-in-out;
         }
-        transform: perspective(1500px) rotateX(15deg) rotate(0);
-        -webkit-transform: perspective(1500px) rotateX(15deg) rotate(0);
-        -webkit-box-shadow: 0px 10px 35px 0px rgba(0,0,0,0.55);
-        -moz-box-shadow: 0px 10px 35px 0px rgba(0,0,0,0.55);
-        box-shadow: 0px 10px 35px 0px rgba(0,0,0,0.55);
 }
 
 [ng\:cloak], [ng-cloak], .ng-cloak, mobile-device.ng-cloak {
         display: none;
 }
 
-.mobile-device:after {
-        content:'';
-        position: absolute;
-        height: 600px + $deviceHeightAdd;
-        width: 312px;
-        background-color: $mobileDeviceAfterColor;
-        margin: 40 auto;
-        transform: translateY(-45px) translateX(-1px);
-        -webkit-transform: translateY(-45px) translateX(-1px);
-        border-radius: 25px;
-        opacity: 1;
-        transition: 0.5s ease-in-out;
-        -webkit-transition: 0.5s ease-in-out;
-        z-index: -1;
-}
-
 .screen {
         position: fixed;
         left: 50%;
-        top: 40px;
+        top: 80px;
         transform: translateX(-50%);
         -webkit-transform: translateX(-50%);
         height: 500px + $deviceHeightAdd;
@@ -279,9 +257,6 @@ body {
         height: calc(90% - 10px);
         padding: 10px 10px 0px 10px;
         background-color: $chatWindowColor;
-        background: url(../img/bg.jpg);
-        background-size: 150px 150px;
-        background-repeat: repeat;
 }
 
 .chat-window::-webkit-scrollbar {

@@ -150,33 +150,35 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         $scope.send = function(input) {
             if (!$scope.lock && input) {
                 if (waitingForResponse) {
-                    // do stuff with input now
-
+                    registerMessage(input, 'user');
+                    $element.find('input').val('');
+                    $scope.currentUser.text = null;
                     waitingForResponse = false;
+
+                    // do stuff with input now
+                    console.log("testing");
+                    registerMessage("Response received.");
+
                 } else {
                     registerMessage(input, 'user');
                     $element.find('input').val('');
                     $scope.currentUser.text = null;
-                    if ($scope.amSelected) {
-                        socket.emit('new message', input);
-                    } else {
-                        dialogueResponse(input).then(function(data){
-                            switch (data.response) {
-                                case "E.AGE":
-                                    registerMessage(GrantsAge);
-                                    break;
-                                case "E.WEATHER":
-                                    Weather.then(function(resp){
-                                        registerMessage(resp);
-                                    });
-                                    break;
-                                default:
-                                    registerMessage(data.response);
-                            }
-                        },function(notFoundMsg){
-                            registerMessage(notFoundMsg);
-                        });
-                    }
+                    dialogueResponse(input).then(function(data){
+                        switch (data.response) {
+                            case "E.AGE":
+                                registerMessage(GrantsAge);
+                                break;
+                            case "E.WEATHER":
+                                Weather.then(function(resp){
+                                    registerMessage(resp);
+                                });
+                                break;
+                            default:
+                                registerMessage(data.response);
+                        }
+                    },function(notFoundMsg){
+                        registerMessage(notFoundMsg);
+                    });
                 }
             }
         };
@@ -198,6 +200,7 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         registerMessage("Hi, I'm TravelBot. What's your name?").then(function(){
             // wait for response
             waitingForResponse = true;
+            console.log("waiting for response");
         });
 
 
