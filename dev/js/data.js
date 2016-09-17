@@ -219,6 +219,7 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
 
 
                                 $http.jsonp(URL, {params: parameters}).then(function(response){
+                                    console.log(response.data);
                                     registerMessage(response.data);
                                 });
                                 registerMessage("Great!");
