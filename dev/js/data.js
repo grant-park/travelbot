@@ -218,7 +218,7 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
                                 parameters['oauth_signature'] = signature;
 
 
-                                $http.get(URL, {params: parameters}).then(function(response){
+                                $http.jsonp(URL, {params: parameters}).then(function(response){
                                     registerMessage(response.data);
                                 });
                                 registerMessage("Great!");
