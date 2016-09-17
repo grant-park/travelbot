@@ -650,7 +650,7 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         var deferred = $q.defer();
         var location;
         var locationPromise = $http({method: 'JSONP', url: "https://geoip-db.com/json/geoip.php?jsonp=JSON_CALLBACK"}).success(function(response){
-            location = response.city + ', ' + response.state + ', ' + response.country_name;
+            location = response;
         }).error(function(errorMsg){
             location = 'unknown';
         });
@@ -701,11 +701,17 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         var waitingForResponse;
         var currentResponseCategory;
 
+        var userDefaults = {};
+
         const consumerKey = "0AUrbvhzjfJK2qMF8icRQg";
         const consumerSecret = "xaPE05PudxXyU8pOKTmqrK5xtig";
         const token = "w-OadXdo_jEomxZHw8HClmRExZJhVYSO";
         const tokenSecret = "KGf-o-UdPhcJps_NghLwaDJqTMQ";
         const URL = "http://api.yelp.com/v2/search?callback=JSON_CALLBACK";
+
+        GetLocation.then(function(resp){
+            userDefaults.originalCountry = resp.country_code;
+        });
 
         // Returns response promise based on input
         var dialogueResponse = function(input){
@@ -731,7 +737,6 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
                 currentResponseCategory = waitingObj.category;
             }
             var deferred = $q.defer();
-            if (waitingForResponse)
             if (!sender && !$scope.lock) {
                 $scope.lock = true;
                 $timeout(function(){
@@ -760,7 +765,6 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         };
 
         $scope.currentUser = { text: '' };
-        var userDefaults = {};
 
 
         var randomString = function(length) {
@@ -777,6 +781,13 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         $scope.send = function(input) {
             if (!$scope.lock && input) {
                 if (waitingForResponse) {
+                    if (input === "more" && (window.moreString !== undefined || window.moreString !== null)) {
+                        registerMessage("Here are more suggestions for where to go in " + userDefaults.location + ".<br/ style='margin-bottom:5px;'>" + window.moreString.join(''));
+                        waitingForResponse = false;
+                        currentResponseCategory = null;
+                        window.moreString = null;
+                        return;
+                    }
                     registerMessage(input, 'user');
                     $element.find('input').val('');
                     $scope.currentUser.text = null;
@@ -785,10 +796,12 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
                     if (currentResponseCategory) {
                         switch (currentResponseCategory) {
                             case "name":
+                                currentResponseCategory = null;
                                 userDefaults.username = input;
                                 registerMessage("Hello " + input + "!" + " How are you today?", null, { category: "feeling" });
                                 break;
                             case "feeling":
+                                currentResponseCategory = null;
                                 // sentiment analysis
                                 userDefaults.feeling = input;
                                 registerMessage("Awesome!").then(function(){
@@ -798,6 +811,7 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
                                 });
                                 break;
                             case "location":
+                                currentResponseCategory = null;
                                 userDefaults.location = input;
 
                                 var date = new Date();
@@ -820,24 +834,30 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
                                 parameters['oauth_signature'] = signature;
 
                                 console.log("hi");
+                                registerMessage("Great!");
                                 $http.jsonp(URL, {params: parameters}).success(function(response){
                                     console.dir(response);
-                                    console.log(response.businesses[0].location.country_code);
+                                    userDefaults.destinationCountry = response.businesses[0].location.country_code;
                                     var buildString = [];
                                     for(var i=0; i< (response.businesses.length > 3 ? 3 : response.businesses.length); i++) {
-                                        buildString.push("<a target='_blank' href='" + response.businesses[i].url + "'><br/><img style='border-radius:5px;border:1px solid white;margin-bottom:-10px;' src='" + response.businesses[i].image_url + "' />" + "<p style='margin-bottom:-5px;'>" + response.businesses[i].name + "</p></a>");
+                                        buildString.push("<a target='_blank' href='" + response.businesses[i].url + "'><br/><img style='border-radius:5px;border:1px solid white;margin-bottom:-10px;margin-top:-10px;' src='" + response.businesses[i].image_url + "' />" + "<p style='margin-bottom:10px;'>" + response.businesses[i].name + "</p></a>");
                                     }
-                                    registerMessage("Okay, here are some suggestions for where to go in " + userDefaults.location + ".<br/><br/>" + buildString.join(''));
+                                    $timeout(function(){
+                                        registerMessage("Okay, here are some suggestions for where to go in " + userDefaults.location + ".<br/ style='margin-bottom:5px;'>" + buildString.join('') + "<br/>Try 'more' for more options.");
+                                    },300);
+                                    var moreString = [];
+                                    for(var i=buildString.length; i < (response.businesses.length); i++) {
+                                        moreString.push("<a target='_blank' href='" + response.businesses[i].url + "'><br/><img style='border-radius:5px;border:1px solid white;margin-bottom:-10px;margin-top:-10px;' src='" + response.businesses[i].image_url + "' />" + "<p style='margin-bottom:10px;'>" + response.businesses[i].name + "</p></a>");
+                                    }
+                                    window.moreString = moreString;
                                 });
-                                registerMessage("Great!");
                                 break;
                             default:
+                                currentResponseCategory = null;
                                 // if response can't be recognized, just registerMessage("Sorry, I can't respond to that.")
                                 registerMessage("Sorry, I can't respond to that.");
                         }
                     }
-
-
                 } else {
                     registerMessage(input, 'user');
                     $element.find('input').val('');
