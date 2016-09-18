@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f87466de-9946-4c1f-86bf-82dd90bad40c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev/jade/index.jade" afterPath="$PROJECT_DIR$/dev/jade/index.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev/js/data.js" afterPath="$PROJECT_DIR$/dev/js/data.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prod/js/app-min.js" afterPath="$PROJECT_DIR$/prod/js/app-min.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prod/js/app.js" afterPath="$PROJECT_DIR$/prod/js/app.js" />
     </list>
@@ -30,15 +32,13 @@
       <file leaf-file-name="data.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dev/js/data.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="287" column="69" selection-start-line="287" selection-start-column="69" selection-end-line="287" selection-end-column="69" />
+            <state relative-caret-position="401">
+              <caret line="299" column="0" selection-start-line="299" selection-start-column="0" selection-end-line="299" selection-end-column="0" />
               <folding>
-                <marker date="1474179193000" expanded="true" signature="17211:17289" ph="..." />
-                <marker date="1474179193000" expanded="true" signature="17211:17306" ph="..." />
-                <marker date="1474179193000" expanded="true" signature="17372:17391" ph="..." />
-                <marker date="1474179193000" expanded="true" signature="17372:17409" ph="..." />
-                <marker date="1474179193000" expanded="true" signature="18174:18269" ph="..." />
-                <marker date="1474179193000" expanded="true" signature="18335:18372" ph="..." />
+                <marker date="1474182506000" expanded="true" signature="17998:18093" ph="..." />
+                <marker date="1474182506000" expanded="true" signature="18159:18196" ph="..." />
+                <marker date="1474182506000" expanded="true" signature="18993:19088" ph="..." />
+                <marker date="1474182506000" expanded="true" signature="19154:19191" ph="..." />
               </folding>
             </state>
           </provider>
@@ -57,8 +57,8 @@
       <file leaf-file-name="index.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dev/jade/index.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="49" column="57" selection-start-line="49" selection-start-column="57" selection-end-line="49" selection-end-column="57" />
+            <state relative-caret-position="238">
+              <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -95,7 +95,7 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="7" />
+    <option name="x" value="117" />
     <option name="y" value="23" />
     <option name="width" value="1345" />
     <option name="height" value="866" />
@@ -140,6 +140,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="travelbot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="travelbot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="travelbot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="prod" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="travelbot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="travelbot" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="prod" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -210,6 +242,11 @@
     <property name="nodejs_interpreter_path" value="$USER_HOME$/.nvm/versions/node/v4.4.7/bin/node" />
     <property name="js-jscs-nodeInterpreter" value="$USER_HOME$/.nvm/versions/node/v4.4.7/bin/node" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <method />
@@ -269,15 +306,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1474125922443</updated>
-      <workItem from="1474125924448" duration="22122000" />
+      <workItem from="1474125924448" duration="24821000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22122000" />
+    <option name="totallyTimeSpent" value="24821000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="7" y="23" width="1345" height="866" extended-state="0" />
+    <frame x="117" y="23" width="1345" height="866" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -326,23 +363,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dev/jade/index.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="49" column="57" selection-start-line="49" selection-start-column="57" selection-end-line="49" selection-end-column="57" />
+        <state relative-caret-position="238">
+          <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dev/js/data.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="287" column="69" selection-start-line="287" selection-start-column="69" selection-end-line="287" selection-end-column="69" />
+        <state relative-caret-position="401">
+          <caret line="299" column="0" selection-start-line="299" selection-start-column="0" selection-end-line="299" selection-end-column="0" />
           <folding>
-            <marker date="1474179193000" expanded="true" signature="17211:17289" ph="..." />
-            <marker date="1474179193000" expanded="true" signature="17211:17306" ph="..." />
-            <marker date="1474179193000" expanded="true" signature="17372:17391" ph="..." />
-            <marker date="1474179193000" expanded="true" signature="17372:17409" ph="..." />
-            <marker date="1474179193000" expanded="true" signature="18174:18269" ph="..." />
-            <marker date="1474179193000" expanded="true" signature="18335:18372" ph="..." />
+            <marker date="1474182506000" expanded="true" signature="17998:18093" ph="..." />
+            <marker date="1474182506000" expanded="true" signature="18159:18196" ph="..." />
+            <marker date="1474182506000" expanded="true" signature="18993:19088" ph="..." />
+            <marker date="1474182506000" expanded="true" signature="19154:19191" ph="..." />
           </folding>
         </state>
       </provider>
