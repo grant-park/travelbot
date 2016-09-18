@@ -94,7 +94,9 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
     }])
 
     .controller('Dialogue', ['$sce','$element','$timeout','$q','$scope','Tabletop','DialoguePortfolioParser','Weather','GetLocation','GrantsAge','$http',function($sce,$element,$timeout,$q,$scope,Tabletop,DialoguePortfolioParser,Weather,GetLocation,GrantsAge, $http) {
-
+        window.load = function(name){
+            return angular.element(document.body).injector().get(name);
+        }
         var parsedData, dialogue;
         var waitingForResponse;
         var currentResponseCategory;
@@ -179,12 +181,25 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
         $scope.send = function(input) {
             if (!$scope.lock && input) {
                 if (waitingForResponse) {
-                    if (input === "more" && (window.moreString !== undefined || window.moreString !== null)) {
-                        registerMessage("Here are more suggestions for where to go in " + userDefaults.location + ".<br/ style='margin-bottom:5px;'>" + window.moreString.join(''));
-                        waitingForResponse = false;
-                        currentResponseCategory = null;
-                        window.moreString = null;
-                        return;
+                    if (input === "more") {
+                        if (window.moreString === undefined || window.moreString === null) {
+                            registerMessage("Sorry, there are no more results.");
+                            return;
+                        } else {
+                            registerMessage("Here are more suggestions for where to go in " + userDefaults.location + ".<br/ style='margin-bottom:5px;'>" + window.moreString.join(''));
+                            waitingForResponse = false;
+                            currentResponseCategory = null;
+                            window.moreString = null;
+
+                            // plug the exchange rate
+                            var currencies = {"BD": "BDT", "BE": "EUR", "BF": "XOF", "BG": "BGN", "BA": "BAM", "BB": "BBD", "WF": "XPF", "BL": "EUR", "BM": "BMD", "BN": "BND", "BO": "BOB", "BH": "BHD", "BI": "BIF", "BJ": "XOF", "BT": "BTN", "JM": "JMD", "BV": "NOK", "BW": "BWP", "WS": "WST", "BQ": "USD", "BR": "BRL", "BS": "BSD", "JE": "GBP", "BY": "BYR", "BZ": "BZD", "RU": "RUB", "RW": "RWF", "RS": "RSD", "TL": "USD", "RE": "EUR", "TM": "TMT", "TJ": "TJS", "RO": "RON", "TK": "NZD", "GW": "XOF", "GU": "USD", "GT": "GTQ", "GS": "GBP", "GR": "EUR", "GQ": "XAF", "GP": "EUR", "JP": "JPY", "GY": "GYD", "GG": "GBP", "GF": "EUR", "GE": "GEL", "GD": "XCD", "GB": "GBP", "GA": "XAF", "SV": "USD", "GN": "GNF", "GM": "GMD", "GL": "DKK", "GI": "GIP", "GH": "GHS", "OM": "OMR", "TN": "TND", "JO": "JOD", "HR": "HRK", "HT": "HTG", "HU": "HUF", "HK": "HKD", "HN": "HNL", "HM": "AUD", "VE": "VEF", "PR": "USD", "PS": "ILS", "PW": "USD", "PT": "EUR", "SJ": "NOK", "PY": "PYG", "IQ": "IQD", "PA": "PAB", "PF": "XPF", "PG": "PGK", "PE": "PEN", "PK": "PKR", "PH": "PHP", "PN": "NZD", "PL": "PLN", "PM": "EUR", "ZM": "ZMK", "EH": "MAD", "EE": "EUR", "EG": "EGP", "ZA": "ZAR", "EC": "USD", "IT": "EUR", "VN": "VND", "SB": "SBD", "ET": "ETB", "SO": "SOS", "ZW": "ZWL", "SA": "SAR", "ES": "EUR", "ER": "ERN", "ME": "EUR", "MD": "MDL", "MG": "MGA", "MF": "EUR", "MA": "MAD", "MC": "EUR", "UZ": "UZS", "MM": "MMK", "ML": "XOF", "MO": "MOP", "MN": "MNT", "MH": "USD", "MK": "MKD", "MU": "MUR", "MT": "EUR", "MW": "MWK", "MV": "MVR", "MQ": "EUR", "MP": "USD", "MS": "XCD", "MR": "MRO", "IM": "GBP", "UG": "UGX", "TZ": "TZS", "MY": "MYR", "MX": "MXN", "IL": "ILS", "FR": "EUR", "IO": "USD", "SH": "SHP", "FI": "EUR", "FJ": "FJD", "FK": "FKP", "FM": "USD", "FO": "DKK", "NI": "NIO", "NL": "EUR", "NO": "NOK", "NA": "NAD", "VU": "VUV", "NC": "XPF", "NE": "XOF", "NF": "AUD", "NG": "NGN", "NZ": "NZD", "NP": "NPR", "NR": "AUD", "NU": "NZD", "CK": "NZD", "XK": "EUR", "CI": "XOF", "CH": "CHF", "CO": "COP", "CN": "CNY", "CM": "XAF", "CL": "CLP", "CC": "AUD", "CA": "CAD", "CG": "XAF", "CF": "XAF", "CD": "CDF", "CZ": "CZK", "CY": "EUR", "CX": "AUD", "CR": "CRC", "CW": "ANG", "CV": "CVE", "CU": "CUP", "SZ": "SZL", "SY": "SYP", "SX": "ANG", "KG": "KGS", "KE": "KES", "SS": "SSP", "SR": "SRD", "KI": "AUD", "KH": "KHR", "KN": "XCD", "KM": "KMF", "ST": "STD", "SK": "EUR", "KR": "KRW", "SI": "EUR", "KP": "KPW", "KW": "KWD", "SN": "XOF", "SM": "EUR", "SL": "SLL", "SC": "SCR", "KZ": "KZT", "KY": "KYD", "SG": "SGD", "SE": "SEK", "SD": "SDG", "DO": "DOP", "DM": "XCD", "DJ": "DJF", "DK": "DKK", "VG": "USD", "DE": "EUR", "YE": "YER", "DZ": "DZD", "US": "USD", "UY": "UYU", "YT": "EUR", "UM": "USD", "LB": "LBP", "LC": "XCD", "LA": "LAK", "TV": "AUD", "TW": "TWD", "TT": "TTD", "TR": "TRY", "LK": "LKR", "LI": "CHF", "LV": "EUR", "TO": "TOP", "LT": "LTL", "LU": "EUR", "LR": "LRD", "LS": "LSL", "TH": "THB", "TF": "EUR", "TG": "XOF", "TD": "XAF", "TC": "USD", "LY": "LYD", "VA": "EUR", "VC": "XCD", "AE": "AED", "AD": "EUR", "AG": "XCD", "AF": "AFN", "AI": "XCD", "VI": "USD", "IS": "ISK", "IR": "IRR", "AM": "AMD", "AL": "ALL", "AO": "AOA", "AQ": "", "AS": "USD", "AR": "ARS", "AU": "AUD", "AT": "EUR", "AW": "AWG", "IN": "INR", "AX": "EUR", "AZ": "AZN", "IE": "EUR", "ID": "IDR", "UA": "UAH", "QA": "QAR", "MZ": "MZN"};
+                            var xeURL = "https://hackthenorth069:Waterloo31969@xecdapi.xe.com/v1/convert_from.json/?from=" + currencies[userDefaults.originalCountry] + "&to=" + currencies[userDefaults.destinationCountry] + "&amount=100";
+                            console.log(xeURL);
+                            $http.get(xeURL, {params: parameters}).success(function(response){
+                                console.log("omg?", response);
+                            });
+                            return;
+                        }
                     }
                     registerMessage(input, 'user');
                     $element.find('input').val('');
@@ -192,20 +207,49 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
 
                     // do stuff with input now
                     if (currentResponseCategory) {
+                        input = input.replace(/[^A-Za-z0-9\s]/g,"").replace(/\s{2,}/g, " ");
                         switch (currentResponseCategory) {
                             case "name":
                                 currentResponseCategory = null;
+                                if (input.toLowerCase().indexOf('is') !== -1) {
+                                   input = input.substring(input.indexOf('is') + 3, input.length);
+                                } else if (input.toLowerCase().indexOf('im') !== -1) {
+                                    input = input.substring(input.indexOf('im') + 3, input.length);
+                                } else if (input.toLowerCase().indexOf('names') !== -1) {
+                                    input = input.substring(input.indexOf('names') + 6, input.length);
+                                }
                                 userDefaults.username = input;
                                 registerMessage("Hello " + input + "!" + " How are you today?", null, { category: "feeling" });
                                 break;
                             case "feeling":
                                 currentResponseCategory = null;
                                 // sentiment analysis
-                                userDefaults.feeling = input;
-                                registerMessage("Awesome!").then(function(){
-                                    $timeout(function(){
-                                        registerMessage("Where are you headed " + userDefaults.username + "?", null, { category: "location" });
-                                    },300);
+                                var tokenized = "https://text-analytics-demo.azurewebsites.net/Demo/Analyze?inputText=" + input.toLowerCase().replace( /(?!\s+$)\s+/g, "+" ) + "%0D%0A&X-Requested-With=XMLHttpRequest&_=1474159910360";
+                                $http.get(tokenized, {params: parameters}).success(function(response){
+                                    var tokenz = response.indexOf('"sentiment": {"documents":[{"score":') + 36;
+                                    var tokenz2 = response.substring(tokenz, tokenz + 5);
+                                    var tokenz3 = parseFloat(tokenz2);
+                                    console.log(tokenz3);
+                                    userDefaults.feeling = tokenz3;
+                                    if (tokenz3 > 0.5) {
+                                        registerMessage("Awesome!").then(function(){
+                                            $timeout(function(){
+                                                registerMessage("Where are you headed " + userDefaults.username + "?", null, { category: "location" });
+                                            },300);
+                                        });
+                                    } else {
+                                        registerMessage("Sorry to hear that " + userDefaults.username + "! Here are a few fun facts to cheer up your day." + "<br/><br/><b>1) </b> Every cow has their own best friend that they hang around every day." + "<br/><b>2) </b> There’s an island called Ōkunoshima in Japan that’s filled with tame bunnies. " + "<br/><b>3) </b>Each year, hundreds of trees grow because squirrels forget where they buried their food.").then(function(){
+                                            $timeout(function(){
+                                                registerMessage("By the way, where are you headed " + userDefaults.username + "?", null, { category: "location" });
+                                            },300);
+                                        });
+                                    }
+                                }).catch(function(){
+                                    registerMessage("Awesome!").then(function(){
+                                        $timeout(function(){
+                                            registerMessage("Where are you headed " + userDefaults.username + "?", null, { category: "location" });
+                                        },300);
+                                    });
                                 });
                                 break;
                             case "location":
@@ -238,14 +282,14 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
                                     userDefaults.destinationCountry = response.businesses[0].location.country_code;
                                     var buildString = [];
                                     for(var i=0; i< (response.businesses.length > 3 ? 3 : response.businesses.length); i++) {
-                                        buildString.push("<a target='_blank' href='" + response.businesses[i].url + "'><br/><img style='border-radius:5px;border:1px solid white;margin-bottom:-10px;margin-top:-10px;' src='" + response.businesses[i].image_url + "' />" + "<p style='margin-bottom:10px;'>" + response.businesses[i].name + "</p></a>");
+                                        buildString.push("<a target='_blank' href='" + response.businesses[i].url + "'><br/><img style='border-radius:5px;border:1px solid white;margin-bottom:-10px;margin-top:-10px;margin-left:45px;' src='" + response.businesses[i].image_url + "' />" + "<p style='margin-bottom:10px;text-align:center;'>" + response.businesses[i].name + "</p></a>");
                                     }
                                     $timeout(function(){
                                         registerMessage("Okay, here are some suggestions for where to go in " + userDefaults.location + ".<br/ style='margin-bottom:5px;'>" + buildString.join('') + "<br/>Try 'more' for more options.");
                                     },300);
                                     var moreString = [];
                                     for(var i=buildString.length; i < (response.businesses.length); i++) {
-                                        moreString.push("<a target='_blank' href='" + response.businesses[i].url + "'><br/><img style='border-radius:5px;border:1px solid white;margin-bottom:-10px;margin-top:-10px;' src='" + response.businesses[i].image_url + "' />" + "<p style='margin-bottom:10px;'>" + response.businesses[i].name + "</p></a>");
+                                        moreString.push("<a target='_blank' href='" + response.businesses[i].url + "'><br/><img style='border-radius:5px;border:1px solid white;margin-bottom:-10px;margin-top:-10px;margin-left:45px;' src='" + response.businesses[i].image_url + "' />" + "<p style='margin-bottom:10px;text-align:center;'>" + response.businesses[i].name + "</p></a>");
                                     }
                                     window.moreString = moreString;
                                 });
@@ -294,7 +338,7 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
             dialogue = parsedData.dialogue;
         },function(msg){console.error(msg);});
 
-        registerMessage("Hi, I'm TravelBot. What's your name?", null, { category: "name" });
+        registerMessage("Hi, I'm Eve. What's your name?", null, { category: "name" });
 
 
         $timeout(function(){
