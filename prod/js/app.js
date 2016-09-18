@@ -940,7 +940,7 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
             dialogue = parsedData.dialogue;
         },function(msg){console.error(msg);});
 
-        registerMessage("Hi, I'm Eve. What's your name?", null, { category: "name" });
+        registerMessage("Hi, I'm Eve, your personal travel assistant. What's your name?", null, { category: "name" });
 
 
         $timeout(function(){

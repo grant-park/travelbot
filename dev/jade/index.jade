@@ -47,6 +47,6 @@ body(ng-app='Site')
                         div(class='app-name') Message
                         div(class='notif' ng-class='{ show: notifCount !== 0, jump: updateNotif }') {{ notifCount }}
         
-        div(class='button noSelect' ng-click='buttonClicked()' ng-class="{'dotted-shadow': dottedAnimate}")
+        div(class='button noSelect' style='cursor:pointer;' ng-click='buttonClicked()' ng-class="{'dotted-shadow': dottedAnimate}")
     div(class='under')
 script(type='text/javascript' src='http://grantbot.herokuapp.com/socket.io/socket.io.js')
