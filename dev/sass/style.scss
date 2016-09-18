@@ -58,7 +58,7 @@ body {
         height: 600px + $deviceHeightAdd;
         width: 310px;
         background-color: $mobileDeviceColor;
-        margin: -10px auto;
+        margin: -150px auto;
         border-radius: 25px;
         opacity: 0;
         -webkit-transition: 0.5s ease-in-out;
@@ -78,7 +78,7 @@ body {
 .screen {
         position: fixed;
         left: 50%;
-        top: 180px;
+        top: 40px;
         transform: translateX(-50%);
         -webkit-transform: translateX(-50%);
         height: 500px + $deviceHeightAdd;
