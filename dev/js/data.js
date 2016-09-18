@@ -285,8 +285,9 @@ angular.module('Site', ['ngAnimate','times.tabletop','ngSanitize','luegg.directi
                                         buildString.push("<a target='_blank' href='" + response.businesses[i].url + "'><br/><img style='border-radius:5px;border:1px solid white;margin-bottom:-10px;margin-top:-10px;margin-left:45px;' src='" + response.businesses[i].image_url + "' />" + "<p style='margin-bottom:10px;text-align:center;'>" + response.businesses[i].name + "</p></a>");
                                     }
                                     $timeout(function(){
-                                        registerMessage("Okay, here are some suggestions for where to go in " + userDefaults.location + ".<br/ style='margin-bottom:5px;'>" + buildString.join('') + "<br/>Try 'more' for more options.");
-                                    },300);
+                                        console.log("should run now");
+                                        registerMessage("Okay, here are some suggestions for where to go." + "<br/ style='margin-bottom:5px;'>" + buildString.join('') + "<br/>Try 'more' for more options.");
+                                    },600);
                                     var moreString = [];
                                     for(var i=buildString.length; i < (response.businesses.length); i++) {
                                         moreString.push("<a target='_blank' href='" + response.businesses[i].url + "'><br/><img style='border-radius:5px;border:1px solid white;margin-bottom:-10px;margin-top:-10px;margin-left:45px;' src='" + response.businesses[i].image_url + "' />" + "<p style='margin-bottom:10px;text-align:center;'>" + response.businesses[i].name + "</p></a>");
