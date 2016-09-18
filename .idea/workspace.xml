@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f87466de-9946-4c1f-86bf-82dd90bad40c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev/jade/index.jade" afterPath="$PROJECT_DIR$/dev/jade/index.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev/js/data.js" afterPath="$PROJECT_DIR$/dev/js/data.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dev/sass/style.scss" afterPath="$PROJECT_DIR$/dev/sass/style.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prod/css/style.css" afterPath="$PROJECT_DIR$/prod/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prod/js/app-min.js" afterPath="$PROJECT_DIR$/prod/js/app-min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prod/js/app.js" afterPath="$PROJECT_DIR$/prod/js/app.js" />
     </list>
     <ignored path="travelbot.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,8 +49,8 @@
       <file leaf-file-name="style.scss" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dev/sass/style.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state relative-caret-position="272">
+              <caret line="61" column="25" selection-start-line="61" selection-start-column="25" selection-end-line="61" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -62,7 +60,7 @@
         <entry file="file://$PROJECT_DIR$/dev/jade/index.jade">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="238">
-              <caret line="17" column="62" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
+              <caret line="17" column="81" selection-start-line="17" selection-start-column="81" selection-end-line="17" selection-end-column="81" />
               <folding />
             </state>
           </provider>
@@ -76,8 +74,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/dev/jade/index.jade" />
         <option value="$PROJECT_DIR$/dev/js/data.js" />
+        <option value="$PROJECT_DIR$/dev/jade/index.jade" />
         <option value="$PROJECT_DIR$/dev/sass/style.scss" />
       </list>
     </option>
@@ -99,8 +97,8 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-33" />
-    <option name="y" value="23" />
+    <option name="x" value="85" />
+    <option name="y" value="29" />
     <option name="width" value="1672" />
     <option name="height" value="890" />
   </component>
@@ -273,15 +271,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1474125922443</updated>
-      <workItem from="1474125924448" duration="18638000" />
+      <workItem from="1474125924448" duration="19830000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18638000" />
+    <option name="totallyTimeSpent" value="19830000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-33" y="23" width="1672" height="890" extended-state="0" />
+    <frame x="85" y="29" width="1672" height="890" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -320,14 +318,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dev/jade/index.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="17" column="62" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dev/js/data.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -343,10 +333,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dev/jade/index.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="17" column="81" selection-start-line="17" selection-start-column="81" selection-end-line="17" selection-end-column="81" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dev/sass/style.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        <state relative-caret-position="272">
+          <caret line="61" column="25" selection-start-line="61" selection-start-column="25" selection-end-line="61" selection-end-column="25" />
           <folding />
         </state>
       </provider>

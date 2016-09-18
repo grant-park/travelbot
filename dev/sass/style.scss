@@ -19,9 +19,9 @@ $statusOffline: #a58b86;
 
 $deviceHeightAdd: 15px;
 
-//html {
-//        box-shadow: 0 0 300px rgba(0,0,0,0.40) inset;
-//}
+html {
+        box-shadow: 0 0 300px rgba(0,0,0,0.40) inset;
+}
 
 a {
         color: navajowhite;
@@ -29,10 +29,17 @@ a {
 }
 
 body {
-        background-image: url('http://i.imgur.com/qYBKkZL.gifv');
-        background-repeat: no-repeat;
-        background-size: cover;
+        background-color: #516281;
         overflow: hidden;
+        height: 100%;
+}
+
+.video {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
         height: 100%;
 }
 
@@ -47,11 +54,12 @@ body {
         height: 600px + $deviceHeightAdd;
         width: 310px;
         background-color: $mobileDeviceColor;
-        margin: 40 auto;
+        margin: 140px auto;
         border-radius: 25px;
         opacity: 0;
         -webkit-transition: 0.5s ease-in-out;
         transition: 0.5s ease-in-out;
+        box-shadow: 0 0 100px rgba(0,0,0,0.40);
         &.loaded {
                 opacity: 1;
                 transition: 1s ease-in-out;
@@ -66,7 +74,7 @@ body {
 .screen {
         position: fixed;
         left: 50%;
-        top: 80px;
+        top: 180px;
         transform: translateX(-50%);
         -webkit-transform: translateX(-50%);
         height: 500px + $deviceHeightAdd;
